@@ -208,6 +208,7 @@
 , "sass"
 , "semver"
 , "serve"
+, "shadow-cljs"
 , "shout"
 , "sloc"
 , "smartdc"
