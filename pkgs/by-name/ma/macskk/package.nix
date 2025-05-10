@@ -11,11 +11,11 @@
 
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "macskk";
-  version = "1.11.0";
+  version = "1.13.2";
 
   src = fetchurl {
     url = "https://github.com/mtgto/macSKK/releases/download/${finalAttrs.version}/macSKK-${finalAttrs.version}.dmg";
-    hash = "sha256-CqtW6bfSuAo+9VRmRTgx0aKpBKBEDIxidOh7V5vD7ww=";
+    hash = "sha256-ObsHhv+NFqJnkSvHtoJPPZEaY9AH8xBigcq1l0oiR0s=";
   };
 
   nativeBuildInputs = [
