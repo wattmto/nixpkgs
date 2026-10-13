@@ -1,0 +1,188 @@
+diff --git a/macSKK.xcodeproj/project.pbxproj b/macSKK.xcodeproj/project.pbxproj
+index bdf969a..101efaa 100644
+--- a/macSKK.xcodeproj/project.pbxproj
++++ b/macSKK.xcodeproj/project.pbxproj
+@@ -270,5 +270,5 @@
+-		CE1A01442C5931CD0034FA7D /* katakana.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = katakana.tiff; sourceTree = "<group>"; };
+-		CE1A01452C5931CF0034FA7D /* direct.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = direct.tiff; sourceTree = "<group>"; };
+-		CE1A01462C5931D10034FA7D /* hankaku.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hankaku.tiff; sourceTree = "<group>"; };
+-		CE1A01472C5931D40034FA7D /* eisu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = eisu.tiff; sourceTree = "<group>"; };
+-		CE1A01482C5931D60034FA7D /* hiragana.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = hiragana.tiff; sourceTree = "<group>"; };
++		CE1A01442C5931CD0034FA7D /* katakana.tiff */ = {isa = PBXFileReference; lastKnownFileType = file; path = katakana.tiff; sourceTree = "<group>"; };
++		CE1A01452C5931CF0034FA7D /* direct.tiff */ = {isa = PBXFileReference; lastKnownFileType = file; path = direct.tiff; sourceTree = "<group>"; };
++		CE1A01462C5931D10034FA7D /* hankaku.tiff */ = {isa = PBXFileReference; lastKnownFileType = file; path = hankaku.tiff; sourceTree = "<group>"; };
++		CE1A01472C5931D40034FA7D /* eisu.tiff */ = {isa = PBXFileReference; lastKnownFileType = file; path = eisu.tiff; sourceTree = "<group>"; };
++		CE1A01482C5931D60034FA7D /* hiragana.tiff */ = {isa = PBXFileReference; lastKnownFileType = file; path = hiragana.tiff; sourceTree = "<group>"; };
+@@ -961 +960,0 @@
+-				CE5ECF3D2957034D00E7BE7D /* Preview Assets.xcassets in Resources */,
+diff --git a/macSKK/NumberEntry.swift b/macSKK/NumberEntry.swift
+index 4a267f9..2266ebb 100644
+--- a/macSKK/NumberEntry.swift
++++ b/macSKK/NumberEntry.swift
+@@ -10 +10 @@ struct NumberYomi {
+-    nonisolated(unsafe) static let pattern = /#([01234589])/
++    nonisolated(unsafe) static let pattern = ##/#([01234589])/##
+@@ -87 +87 @@ struct NumberCandidate {
+-    nonisolated(unsafe) static let pattern = /#([01234589])/
++    nonisolated(unsafe) static let pattern = ##/#([01234589])/##
+diff --git a/macSKK/ReleaseVersion.swift b/macSKK/ReleaseVersion.swift
+index 311ef0c..fdb96f5 100644
+--- a/macSKK/ReleaseVersion.swift
++++ b/macSKK/ReleaseVersion.swift
+@@ -39 +39 @@ struct ReleaseVersion: Comparable, CustomStringConvertible, Sendable, Decodable
+-        guard let match = string.wholeMatch(of: /([0-9]+)\.([0-9]+)\.([0-9]+)/),
++        guard let match = string.wholeMatch(of: #/([0-9]+)\.([0-9]+)\.([0-9]+)/#),
+diff --git a/macSKK/Settings/CandidateWindowSettingsView.swift b/macSKK/Settings/CandidateWindowSettingsView.swift
+index 5aa38e7..4b25eff 100644
+--- a/macSKK/Settings/CandidateWindowSettingsView.swift
++++ b/macSKK/Settings/CandidateWindowSettingsView.swift
+@@ -51,0 +52 @@ struct CandidateWindowSettingsView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -54,0 +56 @@ struct CandidateWindowSettingsView: View {
++#endif
+diff --git a/macSKK/Settings/CloudSyncView.swift b/macSKK/Settings/CloudSyncView.swift
+index dbff7fe..2dfdc95 100644
+--- a/macSKK/Settings/CloudSyncView.swift
++++ b/macSKK/Settings/CloudSyncView.swift
+@@ -229,0 +230 @@ struct CloudSyncView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -232,0 +234 @@ struct CloudSyncView: View {
++#endif
+diff --git a/macSKK/Settings/CompletionSettingsView.swift b/macSKK/Settings/CompletionSettingsView.swift
+index 3dc3543..1372c5d 100644
+--- a/macSKK/Settings/CompletionSettingsView.swift
++++ b/macSKK/Settings/CompletionSettingsView.swift
+@@ -43,0 +44 @@ struct CompletionSettingsView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -46,0 +48 @@ struct CompletionSettingsView: View {
++#endif
+diff --git a/macSKK/Settings/DateConversion/DateConversionView.swift b/macSKK/Settings/DateConversion/DateConversionView.swift
+index 942a279..5e96299 100644
+--- a/macSKK/Settings/DateConversion/DateConversionView.swift
++++ b/macSKK/Settings/DateConversion/DateConversionView.swift
+@@ -72,0 +73 @@ struct DateConversionView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -81,0 +83 @@ struct DateConversionView: View {
++#endif
+diff --git a/macSKK/Settings/DateConversion/DateConversionsView.swift b/macSKK/Settings/DateConversion/DateConversionsView.swift
+index 6d12d0a..1d20789 100644
+--- a/macSKK/Settings/DateConversion/DateConversionsView.swift
++++ b/macSKK/Settings/DateConversion/DateConversionsView.swift
+@@ -113,0 +114 @@ struct DateConversionsView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -116,0 +118 @@ struct DateConversionsView: View {
++#endif
+diff --git a/macSKK/Settings/DateConversion/DateYomiView.swift b/macSKK/Settings/DateConversion/DateYomiView.swift
+index 4f0565a..5d1eda9 100644
+--- a/macSKK/Settings/DateConversion/DateYomiView.swift
++++ b/macSKK/Settings/DateConversion/DateYomiView.swift
+@@ -49,0 +50 @@ struct DateYomiView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -55,0 +57 @@ struct DateYomiView: View {
++#endif
+diff --git a/macSKK/Settings/GeneralView.swift b/macSKK/Settings/GeneralView.swift
+index 6027de3..0bfe898 100644
+--- a/macSKK/Settings/GeneralView.swift
++++ b/macSKK/Settings/GeneralView.swift
+@@ -103,0 +104 @@ struct GeneralView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -106,0 +108 @@ struct GeneralView: View {
++#endif
+diff --git a/macSKK/Settings/InputModeSettingsView.swift b/macSKK/Settings/InputModeSettingsView.swift
+index c126346..c972924 100644
+--- a/macSKK/Settings/InputModeSettingsView.swift
++++ b/macSKK/Settings/InputModeSettingsView.swift
+@@ -60,0 +61 @@ struct InputModeSettingsView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -69,0 +71 @@ struct InputModeSettingsView: View {
++#endif
+diff --git a/macSKK/Settings/KanaRuleView.swift b/macSKK/Settings/KanaRuleView.swift
+index ccccfb7..ef175b7 100644
+--- a/macSKK/Settings/KanaRuleView.swift
++++ b/macSKK/Settings/KanaRuleView.swift
+@@ -55,0 +56 @@ struct KanaRuleView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -58,0 +60 @@ struct KanaRuleView: View {
++#endif
+diff --git a/macSKK/Settings/KeyBinding/KeyBindingInputsView.swift b/macSKK/Settings/KeyBinding/KeyBindingInputsView.swift
+index 7279b1a..c6dc6ba 100644
+--- a/macSKK/Settings/KeyBinding/KeyBindingInputsView.swift
++++ b/macSKK/Settings/KeyBinding/KeyBindingInputsView.swift
+@@ -242,0 +243 @@ struct KeyBindingInputsView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -252,0 +254 @@ struct KeyBindingInputsView: View {
++#endif
+diff --git a/macSKK/Settings/KeyBinding/KeyBindingSetView.swift b/macSKK/Settings/KeyBinding/KeyBindingSetView.swift
+index af4e3fc..1300c3e 100644
+--- a/macSKK/Settings/KeyBinding/KeyBindingSetView.swift
++++ b/macSKK/Settings/KeyBinding/KeyBindingSetView.swift
+@@ -79,0 +80 @@ struct KeyBindingSetView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -85,0 +87 @@ struct KeyBindingSetView: View {
++#endif
+diff --git a/macSKK/Settings/KeyBinding/KeyBindingView.swift b/macSKK/Settings/KeyBinding/KeyBindingView.swift
+index d7d2587..0a7b5f2 100644
+--- a/macSKK/Settings/KeyBinding/KeyBindingView.swift
++++ b/macSKK/Settings/KeyBinding/KeyBindingView.swift
+@@ -107,0 +108 @@ struct KeyBindingView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -110,0 +112 @@ struct KeyBindingView: View {
++#endif
+diff --git a/macSKK/Settings/LogView.swift b/macSKK/Settings/LogView.swift
+index 4e36850..6917d8f 100644
+--- a/macSKK/Settings/LogView.swift
++++ b/macSKK/Settings/LogView.swift
+@@ -79,0 +80 @@ struct LogView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -82,0 +84 @@ struct LogView: View {
++#endif
+diff --git a/macSKK/Settings/SKKServDictView.swift b/macSKK/Settings/SKKServDictView.swift
+index 484876f..f1f2f17 100644
+--- a/macSKK/Settings/SKKServDictView.swift
++++ b/macSKK/Settings/SKKServDictView.swift
+@@ -171,0 +172 @@ struct SKKServDictView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -186,0 +188 @@ struct SKKServDictView: View {
++#endif
+diff --git a/macSKK/Settings/SettingsSync.swift b/macSKK/Settings/SettingsSync.swift
+index 1d326fc..17cf76c 100644
+--- a/macSKK/Settings/SettingsSync.swift
++++ b/macSKK/Settings/SettingsSync.swift
+@@ -148 +148 @@ final class SettingsSync {
+-    static var defaultStore: any KeyValueStore? {
++    static var defaultStore: (any KeyValueStore)? {
+diff --git a/macSKK/Settings/SettingsViewModel.swift b/macSKK/Settings/SettingsViewModel.swift
+index 58cac7c..41fe3f9 100644
+--- a/macSKK/Settings/SettingsViewModel.swift
++++ b/macSKK/Settings/SettingsViewModel.swift
+@@ -231,0 +232,11 @@ final class SettingsViewModel: ObservableObject {
++    convenience init(
++        dictionariesDirectoryUrl: URL,
++        notifyRemoteSettingsApplied: @escaping (Set<SettingsSync.Category>) -> Void = UNNotifier.sendNotificationForSettingsSynced
++    ) throws {
++        try self.init(
++            dictionariesDirectoryUrl: dictionariesDirectoryUrl,
++            keyValueStore: SettingsSync.defaultStore,
++            notifyRemoteSettingsApplied: notifyRemoteSettingsApplied
++        )
++    }
++
+@@ -234 +245 @@ final class SettingsViewModel: ObservableObject {
+-        keyValueStore: any KeyValueStore? = SettingsSync.defaultStore,
++        keyValueStore: (any KeyValueStore)?,
+diff --git a/macSKK/Settings/WorkaroundApplicationView.swift b/macSKK/Settings/WorkaroundApplicationView.swift
+index 6da8dec..06e6fc4 100644
+--- a/macSKK/Settings/WorkaroundApplicationView.swift
++++ b/macSKK/Settings/WorkaroundApplicationView.swift
+@@ -53,0 +54 @@ struct WorkaroundApplicationView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -61,0 +63 @@ struct WorkaroundApplicationView: View {
++#endif
+diff --git a/macSKK/Settings/WorkaroundView.swift b/macSKK/Settings/WorkaroundView.swift
+index b2cf9c1..ac41cce 100644
+--- a/macSKK/Settings/WorkaroundView.swift
++++ b/macSKK/Settings/WorkaroundView.swift
+@@ -107,0 +108 @@ struct WorkaroundView: View {
++#if false // Nix build: Xcode-only Preview macro plugin is unavailable
+@@ -126,0 +128 @@ struct WorkaroundView: View {
++#endif
