@@ -3,11 +3,11 @@
   stdenv,
   actool,
   apple-sdk_26,
-  darwin,
   fetchFromGitHub,
   libiconv,
   nix-update-script,
   python3,
+  rcodesign,
   swiftPackages,
   xcbuild,
   xcbuildHook,
@@ -114,10 +114,10 @@ stdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [
     actoolCompat
     python3
+    rcodesign
     swiftPackages.swift
     xcbuildHook
-  ]
-  ++ lib.optionals stdenv.hostPlatform.isAarch64 [ darwin.autoSignDarwinBinariesHook ];
+  ];
 
   buildInputs = [
     sdkWithXpc
@@ -165,16 +165,16 @@ stdenv.mkDerivation (finalAttrs: {
     cp macSKK/en.lproj/Localizable.strings "$app/Contents/Resources/en.lproj/Localizable.strings"
     cp macSKK/ja.lproj/Localizable.strings "$app/Contents/Resources/ja.lproj/Localizable.strings"
 
-    python3 - "$app/Contents/Info.plist" <<'PY'
+    python3 - \
+      "$app/Contents/Info.plist" \
+      "$app/Contents/XPCServices/FetchUpdateService.xpc/Contents/Info.plist" \
+      "$app/Contents/XPCServices/SKKServClient.xpc/Contents/Info.plist" <<'PY'
     import plistlib
     import sys
 
-    path = sys.argv[1]
-    with open(path, "rb") as source:
-        info = plistlib.load(source)
-
-    info.update(
-        {
+    app_plist, fetch_update_plist, skk_serv_plist = sys.argv[1:]
+    bundles = {
+        app_plist: {
             "CFBundleIdentifier": "net.mtgto.inputmethod.macSKK",
             "CFBundleExecutable": "macSKK",
             "CFBundleName": "macSKK",
@@ -183,12 +183,42 @@ stdenv.mkDerivation (finalAttrs: {
             "CFBundleShortVersionString": "${finalAttrs.version}",
             "LSBackgroundOnly": True,
             "LSUIElement": True,
-        }
-    )
+        },
+        fetch_update_plist: {
+            "CFBundleIdentifier": "net.mtgto.inputmethod.macSKK.FetchUpdateService",
+            "CFBundleExecutable": "FetchUpdateService",
+            "CFBundleDisplayName": "FetchUpdateService",
+            "CFBundleName": "FetchUpdateService",
+            "CFBundlePackageType": "XPC!",
+            "CFBundleInfoDictionaryVersion": "6.0",
+            "CFBundleVersion": "${finalAttrs.version}",
+            "CFBundleShortVersionString": "${finalAttrs.version}",
+        },
+        skk_serv_plist: {
+            "CFBundleIdentifier": "net.mtgto.inputmethod.macSKK.SKKServClient",
+            "CFBundleExecutable": "SKKServClient",
+            "CFBundleDisplayName": "SKKServClient",
+            "CFBundleName": "SKKServClient",
+            "CFBundlePackageType": "XPC!",
+            "CFBundleInfoDictionaryVersion": "6.0",
+            "CFBundleVersion": "${finalAttrs.version}",
+            "CFBundleShortVersionString": "${finalAttrs.version}",
+        },
+    }
 
-    with open(path, "wb") as destination:
-        plistlib.dump(info, destination, fmt=plistlib.FMT_XML)
+    for path, metadata in bundles.items():
+        with open(path, "rb") as source:
+            info = plistlib.load(source)
+        info.update(metadata)
+        with open(path, "wb") as destination:
+            plistlib.dump(info, destination, fmt=plistlib.FMT_XML)
     PY
+  '';
+
+  # The generic Darwin hook signs Mach-O files but leaves the app bundle's
+  # resources unsealed. Sign the complete bundle after fixups instead.
+  postFixup = ''
+    rcodesign sign "$out/Library/Input Methods/macSKK.app"
   '';
 
   passthru.updateScript = nix-update-script { };
