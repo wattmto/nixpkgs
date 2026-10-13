@@ -158,9 +158,14 @@ stdenv.mkDerivation (finalAttrs: {
     runHook postInstall
   '';
 
-  # xcbuild does not add these standard bundle keys from the Xcode project settings.
+  # xcbuild omits standard bundle keys and corrupts non-ASCII .strings resources.
   postInstall = ''
-    python3 - "$out/Library/Input Methods/macSKK.app/Contents/Info.plist" <<'PY'
+    app="$out/Library/Input Methods/macSKK.app"
+    cp macSKK/InfoPlist.strings "$app/Contents/Resources/InfoPlist.strings"
+    cp macSKK/en.lproj/Localizable.strings "$app/Contents/Resources/en.lproj/Localizable.strings"
+    cp macSKK/ja.lproj/Localizable.strings "$app/Contents/Resources/ja.lproj/Localizable.strings"
+
+    python3 - "$app/Contents/Info.plist" <<'PY'
     import plistlib
     import sys
 
