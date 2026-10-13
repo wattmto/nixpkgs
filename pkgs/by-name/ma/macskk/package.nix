@@ -113,6 +113,7 @@ stdenv.mkDerivation (finalAttrs: {
 
   nativeBuildInputs = [
     actoolCompat
+    python3
     swiftPackages.swift
     xcbuildHook
   ]
@@ -155,6 +156,34 @@ stdenv.mkDerivation (finalAttrs: {
     ln -s "$out/Library/Input Methods/macSKK.app/Contents/MacOS/macSKK" "$out/bin/macSKK"
 
     runHook postInstall
+  '';
+
+  # xcbuild does not add these standard bundle keys from the Xcode project settings.
+  postInstall = ''
+    python3 - "$out/Library/Input Methods/macSKK.app/Contents/Info.plist" <<'PY'
+    import plistlib
+    import sys
+
+    path = sys.argv[1]
+    with open(path, "rb") as source:
+        info = plistlib.load(source)
+
+    info.update(
+        {
+            "CFBundleIdentifier": "net.mtgto.inputmethod.macSKK",
+            "CFBundleExecutable": "macSKK",
+            "CFBundleName": "macSKK",
+            "CFBundlePackageType": "APPL",
+            "CFBundleVersion": "${finalAttrs.version}",
+            "CFBundleShortVersionString": "${finalAttrs.version}",
+            "LSBackgroundOnly": True,
+            "LSUIElement": True,
+        }
+    )
+
+    with open(path, "wb") as destination:
+        plistlib.dump(info, destination, fmt=plistlib.FMT_XML)
+    PY
   '';
 
   passthru.updateScript = nix-update-script { };
