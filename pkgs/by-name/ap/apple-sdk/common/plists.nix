@@ -186,6 +186,23 @@ let
         IsLaunchable = "YES";
       };
     }
+  ]
+  ++ lib.optionals (xcodePlatform == "MacOSX") [
+    {
+      Identifier = "com.apple.package-type.xpc-service";
+      Type = "PackageType";
+      BasedOn = "com.apple.package-type.wrapper";
+      Name = "XPC Service";
+      DefaultBuildSettings = {
+        PRODUCT_BUNDLE_PACKAGE_TYPE = "XPC!";
+        WRAPPER_SUFFIX = ".xpc";
+      };
+      ProductReference = {
+        FileType = "wrapper.xpc-service";
+        Name = "$(WRAPPER_NAME)";
+        IsLaunchable = "NO";
+      };
+    }
   ];
 
   # Based off of the "MacOSX Product Types.xcspec" file. All
@@ -299,6 +316,19 @@ let
       IsWrapper = "YES";
       HasInfoPlist = "YES";
       HasInfoPlistStrings = "YES";
+    }
+  ]
+  ++ lib.optionals (xcodePlatform == "MacOSX") [
+    {
+      Identifier = "com.apple.product-type.xpc-service";
+      Type = "ProductType";
+      BasedOn = "com.apple.product-type.bundle";
+      Name = "XPC Service";
+      DefaultBuildProperties = {
+        MACH_O_TYPE = "mh_execute";
+        WRAPPER_EXTENSION = "xpc";
+      };
+      PackageTypes = [ "com.apple.package-type.xpc-service" ];
     }
   ];
 

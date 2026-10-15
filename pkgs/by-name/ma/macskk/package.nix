@@ -16,38 +16,8 @@
 }:
 
 let
-  xpcPackageType = {
-    Identifier = "com.apple.package-type.xpc-service";
-    Type = "PackageType";
-    BasedOn = "com.apple.package-type.wrapper";
-    Name = "XPC Service";
-    DefaultBuildSettings = {
-      PRODUCT_BUNDLE_PACKAGE_TYPE = "XPC!";
-      WRAPPER_SUFFIX = ".xpc";
-    };
-    ProductReference = {
-      FileType = "wrapper.xpc-service";
-      Name = "$(WRAPPER_NAME)";
-      IsLaunchable = "NO";
-    };
-  };
-
-  xpcProductType = {
-    Identifier = "com.apple.product-type.xpc-service";
-    Type = "ProductType";
-    BasedOn = "com.apple.product-type.bundle";
-    Name = "XPC Service";
-    DefaultBuildProperties = {
-      MACH_O_TYPE = "mh_execute";
-      WRAPPER_EXTENSION = "xpc";
-    };
-    PackageTypes = [ "com.apple.package-type.xpc-service" ];
-  };
-
   sdkWithXpc = apple-sdk_26.overrideAttrs (old: {
-    nativeBuildInputs = (old.nativeBuildInputs or [ ]) ++ [ python3 ];
     postInstall = (old.postInstall or "") + ''
-      chmod u+w "$out/Library/Xcode/Specifications/PackageTypes.xcspec" "$out/Library/Xcode/Specifications/ProductTypes.xcspec"
       sdkRoot="$out/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk"
       if [ ! -e "$sdkRoot/usr/include/zconf.h" ]; then
         ln -s ${zlib.dev}/include/zconf.h "$sdkRoot/usr/include/zconf.h"
@@ -71,19 +41,6 @@ let
           ln -s "$library" "$swiftLibDir/$libraryName"
         fi
       done
-
-      python3 - "$out/Library/Xcode/Specifications/PackageTypes.xcspec" "$out/Library/Xcode/Specifications/ProductTypes.xcspec" <<'PY'
-      import plistlib
-      import sys
-
-      entries = [${builtins.toJSON xpcPackageType}, ${builtins.toJSON xpcProductType}]
-      for path, entry in zip(sys.argv[1:], entries):
-          with open(path, "rb") as source:
-              plist = plistlib.load(source)
-          plist.append(entry)
-          with open(path, "wb") as destination:
-              plistlib.dump(plist, destination, fmt=plistlib.FMT_XML)
-      PY
     '';
   });
 
